@@ -1,33 +1,27 @@
 var express = require('express');
-var fs      = require('fs');
 var request = require('request');
-var cheerio = require('cheerio');
 var app     = express();
 const port = process.env.PORT || 3000;
 app.get('/scrape/:id', function(req, res){
  
   var id = req.params.id;
-  url = 'https://www.appbrain.com/app/block-puzzle-conquer/'+id;
+  url = 'http://mishnat.com/MishNat/appInfoApi.php?packageName='+id;
 
-  request(url, function(error, response, html){
+  request({ url: url,json: true}, function(error, response, body){
     if(!error){
 		
 	
-      var $ = cheerio.load(html);
+      
 
 	  var ranking="None";
       
-      var json = { ranking : "None"};
+      var json = { pakagenname : "None", url : "None" , bit :0};
 
-	  $("[tooltip='Ranking of the app on Google Play.']").filter(function(){
-        var data = $(this);
-        ranking = data.text().trim();
-	    ranking=ranking.substr(0, ranking.indexOf('\n')); 
-        json.ranking = ranking;
-      })
-	  
-    
-    }
+	  json.pakagenname=body.Package;
+		json.url=body.HeaderImage;
+		json.bit=1;
+	
+	}
 
     res.send(json)
   })
