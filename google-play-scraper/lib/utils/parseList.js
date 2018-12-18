@@ -75,7 +75,7 @@ function parseApp (app) {
      summary: 'sum',
     developer: app.find('a.mnKHRc').text(),
     developerId: splittoken(app.find('a.mnKHRc').attr('href'), "id="),
-     icon: '' ,
+    icon: app.find('img.T75of').attr('data-src'),
      score: 0,
      scoreText: 0,
      priceText: 0,
